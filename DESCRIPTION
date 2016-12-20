@@ -1,0 +1,17 @@
+Package: BWiener
+Version: 0.1-0
+Date: 2016-12-20
+Title: Wiener diffusion model analysis with Bayesian methods
+Authors@R: c(person("Dominik", "Wabersich", 
+                    role=c("aut", "cre"),
+                    email="dominik.wabersich@gmail.com"))
+Author: Dominik Wabersich [aut, cre]
+Maintainer: Dominik Wabersich <dominik.wabersich@gmail.com>
+Depends: R (>= 3.0.0), RWiener (>= 1.3-0), rjags (>= 4-6), coda (>= 0.18.1)
+SystemRequirements: JAGS (>= 4.2.0), JAGS Wiener module (>= 1.1)
+Suggests: 
+Imports: 
+License: GPL (>= 2)
+URL: https://github.com/yeagle/BWiener
+Description: Modelling functions for the Wiener diffusion model, 
+  based on Bayesian Methods (MCMC sampling).

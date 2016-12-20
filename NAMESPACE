@@ -1,0 +1,18 @@
+## import 
+importFrom("RWiener",
+  "revamp"
+)
+importFrom("coda",
+  "as.array.mcmc.list"
+)
+importFrom("rjags",
+  "load.module", "jags.model", "coda.samples"
+)
+importFrom("stats", 
+  "aggregate", "runif", "sd"
+)
+## exported functions
+export (
+"bwdm",
+"hwdm"
+)

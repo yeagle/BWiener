@@ -1,0 +1,18 @@
+BWiener R package
+=================
+Modelling functions for the Wiener diffusion model, based on Bayesian
+Methods (MCMC sampling).
+
+Using the package
+-----------------
+::
+
+  bwdm(data, yvar=c("q", "resp"), alpha=NULL, tau=NULL, beta=NULL, delta=NULL,
+               xvar=NULL, start=NULL, fixed=0, jagscmd=NULL)
+  hwdm(data, jagscmd=NULL, model="hwdm")
+
+See the R man pages for more details!
+
+License
+-------
+http://www.r-project.org/Licenses/GPL-2

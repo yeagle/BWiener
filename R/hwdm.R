@@ -6,11 +6,14 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2016-10-25
-# last mod 2016-10-25 16:35 DW
+# last mod 2016-12-20 18:35 DW
 #
 
 hwdm <- function(data, jagscmd=NULL, model="hwdm") {
   rjags::load.module("wiener")
+
+  if (is.null(data$id)) data$id <- factor(1) # assume one is if there is no id column
+  if (is.null(data$y)) data$y <- revamp(data) # add univariate variable to data if missing
 
   if (model=="hwdm") res <- mlehwdm(data, jagscmd)
   else if (model=="wdmhd") res <- mlehd(data, jagscmd)
@@ -21,7 +24,7 @@ hwdm <- function(data, jagscmd=NULL, model="hwdm") {
   res$npar <- length(res$coefficients)
   res$data <- data
   res$call <- match.call()
-  class(res) <- c("rdm", "wdm")
+  class(res) <- c(class(res), "wdm")
   return(res)
 }
 
