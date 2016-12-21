@@ -8,8 +8,8 @@ Using the package
 ::
 
   bwdm(data, yvar=c("q", "resp"), alpha=NULL, tau=NULL, beta=NULL, delta=NULL,
-               xvar=NULL, start=NULL, fixed=0, jagscmd=NULL)
-  hwdm(data, jagscmd=NULL, model="hwdm")
+               xvar=NULL, start=NULL, fixed=0, jagscmd=NULL, idvar="id")
+  hwdm(data, jagscmd=NULL, model="hwdm", idvar="id", condvar=NULL)
 
 See the R man pages for more details!
 

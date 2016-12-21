@@ -6,19 +6,26 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2016-10-25
-# last mod 2016-12-20 18:35 DW
+# last mod 2016-12-21 18:18 DW
 #
 
-hwdm <- function(data, jagscmd=NULL, model="hwdm") {
+hwdm <- function(data, jagscmd=NULL, model="hwdm", idvar="id", condvar=NULL) {
   rjags::load.module("wiener")
 
+  if(!(idvar == "id")) data$id <- data[[idvar]]
   if (is.null(data$id)) data$id <- factor(1) # assume one is if there is no id column
   if (is.null(data$y)) data$y <- revamp(data) # add univariate variable to data if missing
 
   if (model=="hwdm") res <- mlehwdm(data, jagscmd)
-  else if (model=="wdmhd") res <- mlehd(data, jagscmd)
-  else if (model=="wdmhdc") res <- mlehdc(data, jagscmd)
   else if (model=="rdm") res <- mlerc(data, jagscmd)
+  else if (model=="wdmhd") res <- mlehd(data, jagscmd)
+  else if (model=="wdmhdc") {
+    if(!is.null(condvar)) {
+      if(!(condvar == "cond")) data$cond <- data[["condvar"]]
+      res <- mlehdc(data, jagscmd)
+    }
+    else stop("'condvar' missing for wdmhdc model")
+  }
   else stop("model type not supported")
   res$nobs <- length(data[,1])
   res$npar <- length(res$coefficients)
@@ -60,7 +67,7 @@ mlehwdm <- function(data, jagscmd=NULL) {
   mTau ~ dunif(0.01,1)          # k
   uTau ~ dunif(0.0001,1)        # k
 
-  mDelta ~ dunif(0.01,100)      # k
+  mDelta ~ dunif(-100,100)      # k
   sDelta ~ dunif(0.0001,100)    # k
   prDelta <- pow(sDelta, -2)
 
@@ -89,6 +96,7 @@ mlehwdm <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
+  rjags::unload.module("wiener")
   return(res)
 }
 
@@ -119,7 +127,7 @@ mlehd <- function(data, jagscmd=NULL) {
   tau ~ dunif(0.01,1)         # k
   beta ~ dunif(0.01,1)        # k
 
-  mDelta ~ dunif(0.01,100)    # k
+  mDelta ~ dunif(-100,100)    # k
   sDelta ~ dunif(0.0001,100)  # k
   prDelta <- pow(sDelta, -2)
 
@@ -145,6 +153,7 @@ mlehd <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
+  rjags::unload.module("wiener")
   return(res)
 }
 
@@ -188,7 +197,7 @@ mlehdc <- function(data, jagscmd=NULL) {
 
   for (c in 1:C) {                 # C <- number of conditions
 
-    mDelta[c] ~ dunif(0.01,100)    # k[c]
+    mDelta[c] ~ dunif(-100,100)    # k[c]
 
     for(i in 1:I) {                 # I <- number of subjects
       delta[i,c] ~ dnorm(mDelta[c], prDelta)
@@ -211,6 +220,7 @@ mlehdc <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
+  rjags::unload.module("wiener")
   return(res)
 }
 
@@ -277,5 +287,6 @@ mlerc <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
+  rjags::unload.module("wiener")
   return(res)
 }

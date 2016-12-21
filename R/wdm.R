@@ -6,11 +6,11 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2016-11-04
-# last mod 2016-12-20 18:39 DW
+# last mod 2016-12-21 18:16 DW
 #
 
 bwdm <- function(data, yvar=c("q", "resp"), alpha=NULL, tau=NULL, beta=NULL, delta=NULL,
-               xvar=NULL, start=NULL, fixed=0, jagscmd=NULL) {
+               xvar=NULL, start=NULL, fixed=0, jagscmd=NULL, idvar="id") {
   # save original function call
   cl <- match.call()
 
@@ -24,6 +24,7 @@ bwdm <- function(data, yvar=c("q", "resp"), alpha=NULL, tau=NULL, beta=NULL, del
   fpar <- c("alpha"=unname(alpha), "tau"=unname(tau), 
     "beta"=unname(beta), "delta"=unname(delta))
 
+  if(!(idvar == "id")) data$id <- factor(data[[idvar]])
   if(is.null(data$id)) data$id <- factor(1)
 
   # estimate parameters
@@ -144,5 +145,6 @@ mcmce <- function(data, fpar, start=NULL, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
+  rjags::unload.module("wiener")
   return(res)
 }
