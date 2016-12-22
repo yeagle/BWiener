@@ -6,11 +6,11 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2016-10-25
-# last mod 2016-12-21 18:18 DW
+# last mod 2016-12-22 16:13 DW
 #
 
 hwdm <- function(data, jagscmd=NULL, model="hwdm", idvar="id", condvar=NULL) {
-  rjags::load.module("wiener")
+  rjags::load.module("wiener", quiet=TRUE)
 
   if(!(idvar == "id")) data$id <- data[[idvar]]
   if (is.null(data$id)) data$id <- factor(1) # assume one is if there is no id column
@@ -96,7 +96,7 @@ mlehwdm <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
-  rjags::unload.module("wiener")
+  rjags::unload.module("wiener", quiet=TRUE)
   return(res)
 }
 
@@ -153,7 +153,7 @@ mlehd <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
-  rjags::unload.module("wiener")
+  rjags::unload.module("wiener", quiet=TRUE)
   return(res)
 }
 
@@ -220,7 +220,7 @@ mlehdc <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
-  rjags::unload.module("wiener")
+  rjags::unload.module("wiener", quiet=TRUE)
   return(res)
 }
 
@@ -287,6 +287,6 @@ mlerc <- function(data, jagscmd=NULL) {
     algorithm = list(type="MCMC sampling with JAGS", samples=jsamples)
   )
 
-  rjags::unload.module("wiener")
+  rjags::unload.module("wiener", quiet=TRUE)
   return(res)
 }
