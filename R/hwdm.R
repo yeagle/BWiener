@@ -6,12 +6,10 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2016-10-25
-# last mod 2016-12-22 16:13 DW
+# last mod 2016-12-22 18:37 DW
 #
 
 hwdm <- function(data, jagscmd=NULL, model="hwdm", idvar="id", condvar=NULL) {
-  rjags::load.module("wiener", quiet=TRUE)
-
   if(!(idvar == "id")) data$id <- data[[idvar]]
   if (is.null(data$id)) data$id <- factor(1) # assume one is if there is no id column
   if (is.null(data$y)) data$y <- revamp(data) # add univariate variable to data if missing
@@ -36,6 +34,8 @@ hwdm <- function(data, jagscmd=NULL, model="hwdm", idvar="id", condvar=NULL) {
 }
 
 mlehwdm <- function(data, jagscmd=NULL) {
+  rjags::load.module("wiener", quiet=TRUE)
+
   if(is.null(jagscmd)) jagscmd <- list(n.chains=1, n.adapt=1000, n.iter=10000, thin=10)
 
   data$id <- factor(data$id)
@@ -101,6 +101,8 @@ mlehwdm <- function(data, jagscmd=NULL) {
 }
 
 mlehd <- function(data, jagscmd=NULL) {
+  rjags::load.module("wiener", quiet=TRUE)
+
   if(is.null(jagscmd)) jagscmd <- list(n.chains=1, n.adapt=1000, n.iter=10000, thin=10)
 
   data$id <- factor(data$id)
@@ -158,6 +160,8 @@ mlehd <- function(data, jagscmd=NULL) {
 }
 
 mlehdc <- function(data, jagscmd=NULL) {
+  rjags::load.module("wiener", quiet=TRUE)
+
   if(is.null(jagscmd)) jagscmd <- list(n.chains=1, n.adapt=1000, n.iter=10000, thin=10)
 
   data$id <- factor(data$id)
@@ -225,6 +229,8 @@ mlehdc <- function(data, jagscmd=NULL) {
 }
 
 mlerc <- function(data, jagscmd=NULL) {
+  rjags::load.module("wiener", quiet=TRUE)
+
   if(is.null(jagscmd)) jagscmd <- list(n.chains=1, n.adapt=1000, n.iter=10000, thin=10)
 
   data$id <- factor(data$id)
